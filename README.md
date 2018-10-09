@@ -8,5 +8,4 @@
 * docker-compose 1.18.0
 
 ### build
-run <code>$ python3.6 flow.py </code>
-
+<code>$ build.sh </code>
