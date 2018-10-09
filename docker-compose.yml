@@ -1,11 +1,23 @@
 version: '3'
+
 services:
+
   webapp:
     build: ./ops-exercise
+    container_name: webapp
     ports:
       - "3000:3000"
     depends_on:
       - db
+    networks:
+      - local_net
 
   db:
     build: ./ops-exercise/db
+    container_name: db
+    networks:
+      - local_net
+
+networks:
+  local_net:
+
