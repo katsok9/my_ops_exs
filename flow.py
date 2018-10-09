@@ -61,5 +61,7 @@ time.sleep(10)
 
 health_res = requests.get(health_url)
 if not health_res.status_code == 200:
-    print("Build not healthy ")
+    print(f"Build not healthy, status_code: {health_res.status_code} ")
     sys.exit(1)
+else:
+    print(f"Healthcheck return ok: {health_res.status_code}")
