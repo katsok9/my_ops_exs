@@ -9,19 +9,24 @@ import sys
 from pprint import pprint
 
 
-#clone git repo
-ret_code = subprocess.call("git clone 'https://github.com/bigpandaio/ops-exercise' ", shell=True)
-if not ret_code == 0:
-    print("Error cloning repo, check git config, or url: {}".format('https://github.com/bigpandaio/ops-exercise'))
-    sys.exit(1)
-
 # get images file
 url = 'https://s3.eu-central-1.amazonaws.com/devops-exercise/pandapics.tar.gz'
 health_url = 'http://localhost:3000/health'
 filename = url[url.rfind("/")+1:]
-dirname = "/ops-exercise/public/images"
+reponame = "ops-exercise"
+dirname = f"/{reponame}/public/images"
 cwd = os.getcwd()
-dir_path = cwd + dirname
+dir_path = f"{cwd}{dirname}"
+repo_path = f"{cwd}/{reponame}"
+
+#clone git repo
+
+if not os.path.exists(repo_path):
+    ret_code = subprocess.call("git clone 'https://github.com/bigpandaio/ops-exercise' ", shell=True)
+    if not ret_code == 0:
+        print("Error cloning repo, check git config, or url: {}".format('https://github.com/bigpandaio/ops-exercise'))
+        sys.exit(1)
+
 
 print("file name found: {}\nDownloading".format(filename))
 
@@ -51,14 +56,14 @@ print("status: {}\noutput: '{}'".format(cmd_status, cmd_output))
 if not cmd_status == 0:
     sys.exit(1)
 
-time.sleep(5)
-
-print("Checking app health")
-
-health_res = requests.get(health_url)
-
-print(health_res.status_code)
-
-if not health_res.status_code == 200:
-    pprint(health_res.json())
-    sys.exit(1)
+# time.sleep(5)
+#
+# print("Checking app health")
+#
+# health_res = requests.get(health_url)
+#
+# print(health_res.status_code)
+#
+# if not health_res.status_code == 200:
+#     pprint(health_res.json())
+#     sys.exit(1)

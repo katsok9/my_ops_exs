@@ -11,6 +11,11 @@ services:
       - db
     networks:
       - local_net
+    healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+            interval: 15s
+            timeout: 10s
+            retries: 5
 
   db:
     build: ./ops-exercise/db
