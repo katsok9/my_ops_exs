@@ -23,7 +23,7 @@ services:
     networks:
       - local_net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: curl -f http://localhost:3000/health || exit 1
       interval: 15s
       timeout: 10s
       retries: 5
