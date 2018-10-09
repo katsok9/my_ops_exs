@@ -8,21 +8,26 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - local_net
     healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-            interval: 15s
-            timeout: 10s
-            retries: 5
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
 
   db:
     build: ./ops-exercise/db
     container_name: db
     networks:
       - local_net
-
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017 --quiet
+      interval: 15s
+      timeout: 10s
+      retries: 5
 networks:
   local_net:
 
