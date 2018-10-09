@@ -19,11 +19,14 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+       condition: service_healthy
     networks:
       - local_net
+    links:
+      - db
     healthcheck:
-      test: curl http://localhost:3000/health || exit 1
+      test: curl -f http://127.0.0.1:3000/health || exit 1
       interval: 15s
       timeout: 10s
       retries: 5
