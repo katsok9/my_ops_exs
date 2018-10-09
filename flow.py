@@ -10,8 +10,10 @@ from pprint import pprint
 
 
 #clone git repo
-subprocess.call("git clone 'https://github.com/bigpandaio/ops-exercise' ", shell=True)
-
+ret_code = subprocess.call("git clone 'https://github.com/bigpandaio/ops-exercise' ", shell=True)
+if not ret_code == 0:
+    print("Error cloning repo, check git config, or url: {}".format('https://github.com/bigpandaio/ops-exercise'))
+    sys.exit(1)
 
 # get images file
 url = 'https://s3.eu-central-1.amazonaws.com/devops-exercise/pandapics.tar.gz'
@@ -49,9 +51,7 @@ print("status: {}\noutput: '{}'".format(cmd_status, cmd_output))
 if not cmd_status == 0:
     sys.exit(1)
 
-time.sleep(1)
-
-subprocess.call("docker-compose ps", shell=True, stdout=subprocess.PIPE)
+time.sleep(5)
 
 print("Checking app health")
 
@@ -62,4 +62,3 @@ print(health_res.status_code)
 if not health_res.status_code == 200:
     pprint(health_res.json())
     sys.exit(1)
-
