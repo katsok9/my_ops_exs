@@ -45,13 +45,13 @@ if not ret_code == 0:
 
 cmd = "docker-compose up -d"
 (cmd_status, cmd_output) = subprocess.getstatusoutput(cmd)
-print("status: {}\noutput: '{}'".format(cmd_status, cmd_output))
+print("status: {}\noutput: '\n{}'".format(cmd_status, cmd_output))
 if not cmd_status == 0:
     sys.exit(1)
 
-time.sleep(1)
-
 subprocess.call("docker-compose ps", shell=True, stdout=subprocess.PIPE)
+
+time.sleep(5)
 
 print("Checking app health")
 
