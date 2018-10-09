@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 
-
 import requests
 import tarfile
 import os
 import subprocess
 import sys
-
-
+import time
 
 # get images file
+
 url = 'https://s3.eu-central-1.amazonaws.com/devops-exercise/pandapics.tar.gz'
 repo_url = 'https://github.com/bigpandaio/ops-exercise'
 health_url = 'http://localhost:3000/health'
@@ -56,4 +55,11 @@ cmd = "docker-compose up -d"
 (cmd_status, cmd_output) = subprocess.getstatusoutput(cmd)
 print(f"status: {cmd_status}\noutput: '{cmd_output}'")
 if not cmd_status == 0:
+    sys.exit(1)
+
+time.sleep(10)
+
+health_res = requests.get(health_url)
+if not health_res.status_code == 200:
+    print("Build not healthy ")
     sys.exit(1)
